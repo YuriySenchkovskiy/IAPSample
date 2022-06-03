@@ -368,6 +368,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1197370294}
     m_Modifications:
+    - target: {fileID: 933619457, guid: c0e7a95000e80490ea61737987c40729, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 933619458, guid: c0e7a95000e80490ea61737987c40729, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 933619458, guid: c0e7a95000e80490ea61737987c40729, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 933619458, guid: c0e7a95000e80490ea61737987c40729, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 381.1107
+      objectReference: {fileID: 0}
+    - target: {fileID: 933619458, guid: c0e7a95000e80490ea61737987c40729, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -639.41437
+      objectReference: {fileID: 0}
     - target: {fileID: 2150400847170511088, guid: c0e7a95000e80490ea61737987c40729, type: 3}
       propertyPath: m_Name
       value: ShopWindow

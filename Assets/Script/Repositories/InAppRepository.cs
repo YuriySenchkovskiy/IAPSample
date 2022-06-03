@@ -21,7 +21,7 @@ namespace Script.Repositories
             {
                 if (definition.Name == name)
                 {
-                    return definition.Name;
+                    return definition.ProductID;
                 }
             }
 

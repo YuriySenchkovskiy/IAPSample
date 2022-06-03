@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 namespace Script.UI
 {
+    [RequireComponent(typeof(IAPManager))]
     public class ShopWindow : AnimatedWindowController
     {
         [SerializeField] private Transform _inAppContainer;
@@ -26,7 +27,6 @@ namespace Script.UI
         protected override void Start()
         {
             base.Start();
-            
             _dataGroup = new DataGroup<InAppDefinition, InAppWidget>(_prefabInAppWidget, _inAppContainer);
             SetData();
         }

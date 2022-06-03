@@ -62,7 +62,6 @@
      <Compile Include="Assets\Script\UI\MenuWindowController.cs" />
      <Compile Include="Assets\Script\Repositories\InAppDefinition.cs" />
      <Compile Include="Assets\Script\UI\IItemRenderer.cs" />
-     <Compile Include="Assets\Script\MyIAPManager.cs" />
      <Compile Include="Assets\Script\Generated\AppleTangle.cs" />
      <Compile Include="Assets\Script\Generated\GooglePlayTangle.cs" />
      <Compile Include="Assets\Script\IAPManager.cs" />

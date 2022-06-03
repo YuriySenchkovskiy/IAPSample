@@ -1,11 +1,8 @@
 using System;
-using System.Collections.Generic;
-using Script.Generated;
 using Script.Repositories;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Purchasing;
-using UnityEngine.UI;
-using UnityEngine.Purchasing.Security;
 
 namespace Script
 {
@@ -16,6 +13,10 @@ namespace Script
         private IAppleExtensions m_AppleExtensions;
         private IGooglePlayStoreExtensions m_GoogleExtensions;
 
+        public UnityAction ProductSold;
+        public UnityAction SoldFailed;
+        public UnityAction RestoreFailed;
+            
         private void Start()
         {
             if (m_StoreController == null)
@@ -24,29 +25,89 @@ namespace Script
             }
         }
         
-        public void OnInitializeFailed(InitializationFailureReason error)
-        {
-            
-        }
-
-        public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs purchaseEvent)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
-        {
-            
-        }
-
         public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
         {
+            m_StoreController = controller;
+            m_StoreExtensionProvider = extensions;
+            m_AppleExtensions = extensions.GetExtension<IAppleExtensions>();
+            m_GoogleExtensions = extensions.GetExtension<IGooglePlayStoreExtensions>();
+        }
+        
+        public void OnInitializeFailed(InitializationFailureReason error)
+        {
+            Debug.Log($"Not initialized. Reason: {error}");
+        }
+        
+        public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs purchaseEvent)
+        {
+            var product = purchaseEvent.purchasedProduct;
+            var id = product.definition.id;
+            var transactionID = product.transactionID;
             
+            // логика успешной покупки - пишем в файл - какой?
+
+            // продажа всех видов товаров в одном bundle идет последней в InAppRepository
+            if (id == InAppRepository.I.Collection[InAppRepository.I.Collection.Length - 1].ProductID)
+            {
+                BuyBundle();
+            }
+            else
+            {
+                PlayerPrefs.SetInt(id, 0);
+            }
+            
+            ProductSold?.Invoke();
+            Debug.Log($"Purchase Complete: {product.definition.id}");
+
+            return PurchaseProcessingResult.Complete;
+        }
+        
+        public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
+        {
+            // в случае неудачи делаем возврат в главное меню
+            Debug.Log($"{product.definition.id} failed because {failureReason}");
+            SoldFailed?.Invoke();
         }
 
-        public void BuyProduct()
+        public void BuyProduct(string name)
         {
+            var id = InAppRepository.I.GetID(name);
             
+            if (IsInitialized())
+            {
+                Product product = m_StoreController.products.WithID(id);
+
+                if (product != null && product.availableToPurchase)
+                {
+                    Debug.Log($"Purchasing product: {product.definition.id}");
+                    m_StoreController.InitiatePurchase(product); // запускает ProcessPurchase()
+                }
+                else
+                {
+                    Debug.Log("BuyProductID: FAIL. Not purchasing product, either is not found or is not available for purchase");
+                }
+            }
+            else
+            {
+                Debug.Log("BuyProductID FAIL. Not initialized.");
+            }
+        }
+        
+        // метод только для эпл и их политики восстановления покупок
+        public void RestorePurchases()
+        {
+            m_StoreExtensionProvider.GetExtension<IAppleExtensions>().RestoreTransactions(result => 
+            {
+                if (result)
+                {
+                    // успешный возврат покупки - всплывающее окно - успех
+                }
+                else
+                {
+                    // неуспешный возврат покупки - всплывающее окно - неудача
+                    RestoreFailed?.Invoke();
+                }
+            });
         }
 
         public float GetPrice(string name)
@@ -64,7 +125,7 @@ namespace Script
             }
             
             var id = InAppRepository.I.GetID(name);
-            
+
             foreach (var product in productsAll)
             {
                 if (product.definition.id == id)
@@ -75,20 +136,30 @@ namespace Script
 
             return default;
         }
-        
-        public void RestorePurchases()
+
+        public bool IsProductPurchased(string name)
         {
-            m_StoreExtensionProvider.GetExtension<IAppleExtensions>().RestoreTransactions(result => 
+            var id = InAppRepository.I.GetID(name);
+            
+            if (PlayerPrefs.HasKey(id))
             {
-                if (result)
+                return true;
+            }
+
+            return default;
+        }
+
+        private void BuyBundle()
+        {
+            foreach (var item in InAppRepository.I.Collection)
+            {
+                if (PlayerPrefs.HasKey(item.ProductID))
                 {
-                    // успешный возврат покупки
+                    continue;
                 }
-                else
-                {
-                    // неуспешный возврат покупки
-                }
-            });
+                
+                PlayerPrefs.SetInt(item.ProductID, 0);
+            }
         }
 
         private void InitializePurchasing()
