@@ -58,7 +58,7 @@ namespace Script.UI
             if (_iapManager.IsProductPurchased(_data.Name))
             {
                 _purchased.gameObject.SetActive(true);
-                //_button.gameObject.SetActive(false);
+                _button.interactable = false;
             }
         }
     }

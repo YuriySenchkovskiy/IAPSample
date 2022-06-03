@@ -14,7 +14,7 @@ namespace Script
         private IGooglePlayStoreExtensions m_GoogleExtensions;
 
         public UnityAction ProductSold;
-        public UnityAction SoldFailed;
+        public UnityAction PurchaseFailed;
         public UnityAction RestoreFailed;
             
         private void Start()
@@ -66,7 +66,7 @@ namespace Script
         {
             // в случае неудачи делаем возврат в главное меню
             Debug.Log($"{product.definition.id} failed because {failureReason}");
-            SoldFailed?.Invoke();
+            PurchaseFailed?.Invoke();
         }
 
         public void BuyProduct(string name)

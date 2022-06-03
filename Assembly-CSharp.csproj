@@ -59,12 +59,13 @@
      <Compile Include="Assets\Script\UI\DataGroup.cs" />
      <Compile Include="Assets\Script\UI\PopUpWindow.cs" />
      <Compile Include="Assets\Script\Repositories\InAppRepository.cs" />
-     <Compile Include="Assets\Script\UI\MenuWindowController.cs" />
+     <Compile Include="Assets\Script\UI\IAPWindowController.cs" />
      <Compile Include="Assets\Script\Repositories\InAppDefinition.cs" />
      <Compile Include="Assets\Script\UI\IItemRenderer.cs" />
      <Compile Include="Assets\Script\Generated\AppleTangle.cs" />
      <Compile Include="Assets\Script\Generated\GooglePlayTangle.cs" />
      <Compile Include="Assets\Script\IAPManager.cs" />
+     <Compile Include="Assets\Script\UI\FailedWindow.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

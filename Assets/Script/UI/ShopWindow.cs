@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 namespace Script.UI
 {
-    [RequireComponent(typeof(IAPManager))]
     public class ShopWindow : AnimatedWindowController
     {
         [SerializeField] private Transform _inAppContainer;
@@ -18,7 +17,7 @@ namespace Script.UI
 
         private void Awake()
         {
-            if (Application.platform != RuntimePlatform.IPhonePlayer)
+            if (Application.platform == RuntimePlatform.IPhonePlayer)
             {
                 _restoreButton.gameObject.SetActive(false);
             }

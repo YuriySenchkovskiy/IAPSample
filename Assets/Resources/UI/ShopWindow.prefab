@@ -263,7 +263,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 787972355}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Script.IAPManager, Assembly-CSharp
         m_MethodName: RestorePurchases
         m_Mode: 1
@@ -419,7 +419,6 @@ GameObject:
   - component: {fileID: 2150400847170511084}
   - component: {fileID: 2150400847170511086}
   - component: {fileID: 1210934795}
-  - component: {fileID: 787972355}
   m_Layer: 5
   m_Name: ShopWindow
   m_TagString: Untagged
@@ -489,18 +488,6 @@ MonoBehaviour:
   _inAppContainer: {fileID: 53502780}
   _prefabInAppWidget: {fileID: 933619461}
   _restoreButton: {fileID: 1097295258}
---- !u!114 &787972355
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2150400847170511088}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49286abd02be44ec8e0ca043ab875217, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4647530865483573258
 GameObject:
   m_ObjectHideFlags: 0
@@ -694,7 +681,7 @@ PrefabInstance:
     - target: {fileID: 1842124024309255247, guid: e25b6c60e2877405090b6f061e48b19c, type: 3}
       propertyPath: _iapManager
       value: 
-      objectReference: {fileID: 787972355}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e25b6c60e2877405090b6f061e48b19c, type: 3}
 --- !u!224 &933619458 stripped
