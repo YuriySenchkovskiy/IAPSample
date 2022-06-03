@@ -8,12 +8,12 @@ namespace Script.UI
     public class ShopWindow : AnimatedWindowController
     {
         [SerializeField] private Transform _inAppContainer;
-        [SerializeField] private InAppWidget _prefabInAppWidget;
+        [SerializeField] private InShopWidget prefabInShopWidget;
         [SerializeField] private Button _restoreButton;
         // тут нужен звук
 
-        private DataGroup<InAppDefinition, InAppWidget> _dataGroup;
-        private InAppWidget[] _widgets;
+        private DataGroup<InAppDefinition, InShopWidget> _dataGroup;
+        private InShopWidget[] _widgets;
 
         private void Awake()
         {
@@ -26,8 +26,13 @@ namespace Script.UI
         protected override void Start()
         {
             base.Start();
-            _dataGroup = new DataGroup<InAppDefinition, InAppWidget>(_prefabInAppWidget, _inAppContainer);
+            _dataGroup = new DataGroup<InAppDefinition, InShopWidget>(prefabInShopWidget, _inAppContainer);
             SetData();
+        }
+
+        public void MakeRestore()
+        {
+            
         }
 
         private void SetData()

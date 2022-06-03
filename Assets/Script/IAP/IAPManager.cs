@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Purchasing;
 
-namespace Script
+namespace Script.IAP
 {
     public class IAPManager : MonoBehaviour, IStoreListener
     {
@@ -13,9 +13,9 @@ namespace Script
         private IAppleExtensions m_AppleExtensions;
         private IGooglePlayStoreExtensions m_GoogleExtensions;
 
-        public UnityAction ProductSold;
-        public UnityAction PurchaseFailed;
-        public UnityAction RestoreFailed;
+        public static UnityAction ProductSold;
+        public static UnityAction PurchaseFailed;
+        public static UnityAction RestoreFailed;
             
         private void Start()
         {
@@ -57,6 +57,21 @@ namespace Script
             }
             
             ProductSold?.Invoke();
+            
+            var a = ProductSold?.GetInvocationList();
+            if (a != null)
+            {
+                foreach (var dDelegate in a)
+                {
+                    Debug.Log("in class " + dDelegate.Method);
+                }
+            }
+            else
+            {
+                Debug.Log("null in delegate");
+            }
+                
+
             Debug.Log($"Purchase Complete: {product.definition.id}");
 
             return PurchaseProcessingResult.Complete;

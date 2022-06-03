@@ -1,15 +1,17 @@
 using System.Globalization;
+using Script.IAP;
 using Script.Repositories;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Script.UI
 {
-    public class InAppWidget : MonoBehaviour, IItemRenderer<InAppDefinition>
+    public class InShopWidget : MonoBehaviour, IItemRenderer<InAppDefinition>
     {
         [SerializeField] private Text _name;
         [SerializeField] private Image _image;
         [SerializeField] private Text _price;
+        
         [SerializeField] private Image _purchased;
         [SerializeField] private Button _button;
         [SerializeField] private IAPManager _iapManager;
@@ -18,17 +20,18 @@ namespace Script.UI
 
         private void OnEnable()
         {
-            _iapManager.ProductSold += OnProductSold;
+            IAPManager.ProductSold += OnProductSold;
         }
 
         private void Start()
         {
             UpdateWidget();
+            OnProductSold();
         }
         
         private void OnDisable()
         {
-            _iapManager.ProductSold -= OnProductSold;
+            IAPManager.ProductSold -= OnProductSold;
         }
 
         public void SetDataInWidget(InAppDefinition localInfo)
@@ -49,8 +52,6 @@ namespace Script.UI
 
             float priceFromStore = _iapManager.GetPrice(_data.Name);
             _price.text = priceFromStore == 0f ? _data.Price.ToString(CultureInfo.InvariantCulture) : priceFromStore.ToString(CultureInfo.InvariantCulture);
-            
-            OnProductSold();
         }
 
         private void OnProductSold()
