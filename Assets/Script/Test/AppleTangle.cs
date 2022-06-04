@@ -1,6 +1,6 @@
 using UnityEngine.Purchasing.Security;
 
-namespace Script.Generated
+namespace Script.Test
 {
     public class AppleTangle
     {
@@ -10,9 +10,13 @@ namespace Script.Generated
 
         public static readonly bool IsPopulated = true;
 
-        public static byte[] Data() {
+        public static byte[] Data() 
+        {
             if (IsPopulated == false)
+            {
                 return null;
+            }
+            
             return Obfuscator.DeObfuscate(data, order, key);
         }
     }

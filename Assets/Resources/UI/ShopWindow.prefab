@@ -507,6 +507,7 @@ GameObject:
   - component: {fileID: 2150400847170511084}
   - component: {fileID: 2150400847170511086}
   - component: {fileID: 1210934795}
+  - component: {fileID: 3158331891552598261}
   m_Layer: 5
   m_Name: ShopWindow
   m_TagString: Untagged
@@ -577,6 +578,19 @@ MonoBehaviour:
   _inAppContainer: {fileID: 53502780}
   prefabInShopWidget: {fileID: 8346372783540906836, guid: ff643f2e2ecb7410c9efbf092b689659, type: 3}
   _restoreButton: {fileID: 1097295258}
+  _iapManager: {fileID: 3158331891552598261}
+--- !u!114 &3158331891552598261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2150400847170511088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49286abd02be44ec8e0ca043ab875217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4647530865483573258
 GameObject:
   m_ObjectHideFlags: 0
@@ -767,7 +781,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8346372783540906836, guid: ff643f2e2ecb7410c9efbf092b689659, type: 3}
+      propertyPath: _iapManager
+      value: 
+      objectReference: {fileID: 3158331891552598261}
+    m_RemovedComponents:
+    - {fileID: 1154738075526404060, guid: ff643f2e2ecb7410c9efbf092b689659, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ff643f2e2ecb7410c9efbf092b689659, type: 3}
 --- !u!224 &933619458 stripped
 RectTransform:

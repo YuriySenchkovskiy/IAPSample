@@ -466,7 +466,7 @@ GameObject:
   - component: {fileID: 910160337}
   - component: {fileID: 910160339}
   m_Layer: 5
-  m_Name: IAPMenu
+  m_Name: IAPWindowController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

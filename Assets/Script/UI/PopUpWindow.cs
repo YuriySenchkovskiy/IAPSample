@@ -19,19 +19,19 @@ namespace Script.UI
         private void OnEnable()
         {
             IAPWindowController.PopUpCreate += OnPopUpCreate;
-            IAPManager.ProductSold += OnProductSold;
+            IAPManager.PurchaseSuccess += OnPurchaseSuccess;
         }
 
         protected override void Start()
         {
             base.Start();
-            OnProductSold();
+            OnPurchaseSuccess();
         }
 
         private void OnDisable()
         {
             IAPWindowController.PopUpCreate -= OnPopUpCreate;
-            IAPManager.ProductSold -= OnProductSold;
+            IAPManager.PurchaseSuccess -= OnPurchaseSuccess;
         }
         
         public void OnSelect()
@@ -50,7 +50,7 @@ namespace Script.UI
             _price.text = priceFromStore == 0f ? _data.Price.ToString(CultureInfo.InvariantCulture) : priceFromStore.ToString(CultureInfo.InvariantCulture);
         }
         
-        private void OnProductSold()
+        private void OnPurchaseSuccess()
         {
             if (_iapManager.IsProductPurchased(_data.Name))
             {

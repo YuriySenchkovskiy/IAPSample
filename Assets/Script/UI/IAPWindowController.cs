@@ -16,11 +16,13 @@ namespace Script.UI
         private void OnEnable()
          {
              IAPManager.PurchaseFailed += OnPurchaseFailed;
+             IAPManager.RestoreFailed += OnRestoreFailed;
          }
         
          private void OnDisable()
          {
              IAPManager.PurchaseFailed -= OnPurchaseFailed;
+             IAPManager.RestoreFailed -= OnRestoreFailed;
          }
 
         public void ShowShop()
@@ -37,6 +39,12 @@ namespace Script.UI
         private void OnPurchaseFailed()
         {
             WindowUtil.CreateWindow(_failedPath);
+        }
+        
+        private void OnRestoreFailed()
+        {
+            WindowUtil.CreateWindow(_failedPath);
+            // можно сделать и другое окно
         }
     }
 }

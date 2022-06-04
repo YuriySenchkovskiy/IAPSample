@@ -20,20 +20,20 @@ namespace Script.UI
 
         private void OnEnable()
         {
-            IAPManager.ProductSold += OnProductSold;
+            IAPManager.PurchaseSuccess += OnPurchaseSuccess;
         }
 
         private void Start()
         {
             UpdateWidget();
-            OnProductSold();
+            OnPurchaseSuccess();
         }
         
         private void OnDisable()
         {
-            IAPManager.ProductSold -= OnProductSold;
+            IAPManager.PurchaseSuccess -= OnPurchaseSuccess;
         }
-
+        
         public void SetDataInWidget(InAppDefinition localInfo)
         {
             _data = localInfo;
@@ -54,7 +54,7 @@ namespace Script.UI
             _price.text = priceFromStore == 0f ? _data.Price.ToString(CultureInfo.InvariantCulture) : priceFromStore.ToString(CultureInfo.InvariantCulture);
         }
 
-        private void OnProductSold()
+        private void OnPurchaseSuccess()
         {
             if (_iapManager.IsProductPurchased(_data.Name))
             {

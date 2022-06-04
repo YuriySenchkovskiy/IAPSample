@@ -13,8 +13,11 @@ namespace Script.IAP
         private IAppleExtensions m_AppleExtensions;
         private IGooglePlayStoreExtensions m_GoogleExtensions;
 
-        public static UnityAction ProductSold;
+        private string _appleRestore = "Apple restore complete";
+
+        public static UnityAction PurchaseSuccess;
         public static UnityAction PurchaseFailed;
+        public static UnityAction RestoreSuccess;
         public static UnityAction RestoreFailed;
             
         private void Start()
@@ -56,30 +59,14 @@ namespace Script.IAP
                 PlayerPrefs.SetInt(id, 0);
             }
             
-            ProductSold?.Invoke();
-            
-            var a = ProductSold?.GetInvocationList();
-            if (a != null)
-            {
-                foreach (var dDelegate in a)
-                {
-                    Debug.Log("in class " + dDelegate.Method);
-                }
-            }
-            else
-            {
-                Debug.Log("null in delegate");
-            }
-                
-
-            Debug.Log($"Purchase Complete: {product.definition.id}");
-
+            PurchaseSuccess?.Invoke();
             return PurchaseProcessingResult.Complete;
         }
         
         public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
         {
-            // в случае неудачи делаем возврат в главное меню через кнопку возврата в меню
+            // в случае неудачи делаем возврат в главное меню через кнопку возврата
+            // в меню внутри вызываемого окна
             Debug.Log($"{product.definition.id} failed because {failureReason}");
             PurchaseFailed?.Invoke();
         }
@@ -94,7 +81,6 @@ namespace Script.IAP
 
                 if (product != null && product.availableToPurchase)
                 {
-                    Debug.Log($"Purchasing product: {product.definition.id}");
                     m_StoreController.InitiatePurchase(product); // запускает ProcessPurchase()
                 }
                 else
@@ -115,11 +101,11 @@ namespace Script.IAP
             {
                 if (result)
                 {
-                    // успешный возврат покупки - всплывающее окно - успех
+                    PlayerPrefs.SetInt(_appleRestore, 0);
+                    RestoreSuccess?.Invoke();
                 }
                 else
                 {
-                    // неуспешный возврат покупки - всплывающее окно - неудача
                     RestoreFailed?.Invoke();
                 }
             });
@@ -163,18 +149,20 @@ namespace Script.IAP
 
             return default;
         }
-
-        private void BuyBundle()
+        
+        public bool IsProductRestored()
         {
-            foreach (var item in InAppRepository.I.Collection)
+            if (PlayerPrefs.HasKey(_appleRestore))
             {
-                if (PlayerPrefs.HasKey(item.ProductID))
-                {
-                    continue;
-                }
-                
-                PlayerPrefs.SetInt(item.ProductID, 0);
+                return true;
             }
+
+            return default;
+        }
+        
+        private bool IsInitialized()
+        {
+            return m_StoreController != null && m_StoreExtensionProvider != null;
         }
 
         private void InitializePurchasing()
@@ -194,9 +182,17 @@ namespace Script.IAP
             UnityPurchasing.Initialize(this, builder);
         }
         
-        private bool IsInitialized()
+        private void BuyBundle()
         {
-            return m_StoreController != null && m_StoreExtensionProvider != null;
+            foreach (var item in InAppRepository.I.Collection)
+            {
+                if (PlayerPrefs.HasKey(item.ProductID))
+                {
+                    continue;
+                }
+                
+                PlayerPrefs.SetInt(item.ProductID, 0);
+            }
         }
     }
 }

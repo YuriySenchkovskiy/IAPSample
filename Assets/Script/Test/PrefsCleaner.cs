@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Script.Generated
+namespace Script.Test
 {
     public class PrefsCleaner : MonoBehaviour
     {
