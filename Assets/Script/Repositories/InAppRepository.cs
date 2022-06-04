@@ -27,6 +27,24 @@ namespace Script.Repositories
 
             return default;
         }
+
+        public InAppDefinition GetData(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return default;
+            }
+            
+            foreach (var definition in _collection)
+            {
+                if (definition.Name == name)
+                {
+                    return definition;
+                }
+            }
+            
+            return default;
+        }
         
         private static InAppRepository LoadDefinitions()
         {

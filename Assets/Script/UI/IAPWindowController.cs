@@ -1,6 +1,7 @@
 using Script.IAP;
 using Script.Utils;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Script.UI
 { 
@@ -10,6 +11,8 @@ namespace Script.UI
         [SerializeField] private string _popUpPath;
         [SerializeField] private string _failedPath;
 
+        public static UnityAction<string> PopUpCreate;
+        
         private void OnEnable()
          {
              IAPManager.PurchaseFailed += OnPurchaseFailed;
@@ -25,9 +28,10 @@ namespace Script.UI
             WindowUtil.CreateWindow(_shopPath);
         }
 
-        public void ShowPopUp()
+        public void ShowPopUp(string productName)
         {
             WindowUtil.CreateWindow(_popUpPath);
+            PopUpCreate?.Invoke(productName);
         }
         
         private void OnPurchaseFailed()

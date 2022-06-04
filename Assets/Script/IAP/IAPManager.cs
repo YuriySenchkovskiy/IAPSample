@@ -79,7 +79,7 @@ namespace Script.IAP
         
         public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
         {
-            // в случае неудачи делаем возврат в главное меню
+            // в случае неудачи делаем возврат в главное меню через кнопку возврата в меню
             Debug.Log($"{product.definition.id} failed because {failureReason}");
             PurchaseFailed?.Invoke();
         }
