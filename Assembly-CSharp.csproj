@@ -68,6 +68,10 @@
      <Compile Include="Assets\Script\Repositories\InAppDefinition.cs" />
      <Compile Include="Assets\Script\UI\IItemRenderer.cs" />
      <Compile Include="Assets\Script\Utils\ErrorDatabase.cs" />
+     <Compile Include="Assets\Script\IAP\IAPDefinition.cs" />
+     <Compile Include="Assets\Script\IAP\IAPDataManager.cs" />
+     <Compile Include="Assets\Script\Utils\Identifier\UniqueIdentifier.cs" />
+     <Compile Include="Assets\Script\Test\Test.cs" />
  <Reference Include="UnityEngine">
  <HintPath>/Applications/Unity/Hub/Editor/2020.3.13f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
  </Reference>

@@ -9,8 +9,8 @@ namespace Script.IAP
 {
     public class IAPManager : MonoBehaviour, IStoreListener
     {
-        private static IStoreController m_StoreController;          
-        private static IExtensionProvider m_StoreExtensionProvider;
+        private static IStoreController _storeController;          
+        private static IExtensionProvider _storeExtensionProvider;
 
         public static UnityAction<string> InitializedFailed;
         public static UnityAction<string> PurchaseInitializeFailed;
@@ -20,7 +20,7 @@ namespace Script.IAP
             
         private void Start()
         {
-            if (m_StoreController == null)
+            if (_storeController == null)
             {
                 InitializePurchasing();
             }
@@ -28,8 +28,8 @@ namespace Script.IAP
         
         public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
         {
-            m_StoreController = controller;
-            m_StoreExtensionProvider = extensions;
+            _storeController = controller;
+            _storeExtensionProvider = extensions;
         }
         
         public void OnInitializeFailed(InitializationFailureReason error)
@@ -73,11 +73,11 @@ namespace Script.IAP
             
             if (IsInitialized())
             {
-                Product product = m_StoreController.products.WithID(id);
+                Product product = _storeController.products.WithID(id);
 
                 if (product != null)
                 {
-                    m_StoreController.InitiatePurchase(product);
+                    _storeController.InitiatePurchase(product);
                 }
                 else
                 {
@@ -97,7 +97,7 @@ namespace Script.IAP
             var appleRestore = "AppleRestoreComplete";
             var restoreError = "RestoreFailed";
 
-            m_StoreExtensionProvider.GetExtension<IAppleExtensions>().RestoreTransactions(result => 
+            _storeExtensionProvider.GetExtension<IAppleExtensions>().RestoreTransactions(result => 
             {
                 if (result)
                 {
@@ -113,12 +113,12 @@ namespace Script.IAP
 
         public float GetPrice(string name)
         {
-            if (m_StoreController == null)
+            if (_storeController == null)
             {
                 InitializePurchasing();
             }
 
-            var productsAll = m_StoreController?.products.all;
+            var productsAll = _storeController?.products.all;
             
             if (productsAll == null)
             {
@@ -152,7 +152,7 @@ namespace Script.IAP
 
         private bool IsInitialized()
         {
-            return m_StoreController != null && m_StoreExtensionProvider != null;
+            return _storeController != null && _storeExtensionProvider != null;
         }
 
         private void InitializePurchasing()
