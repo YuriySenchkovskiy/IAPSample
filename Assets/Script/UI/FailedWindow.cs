@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,8 +27,7 @@ namespace Script.UI
 
         public void BackToMainMenu()
         {
-            // логика загрузки главного меню по нажатию на кнопку
-            Debug.Log("Now it's empty button. Add some logic");
+            Debug.Log("логика загрузки сцены главного меню по нажатию на кнопку");
         }
 
         private void OnFailedCreate(string error)
