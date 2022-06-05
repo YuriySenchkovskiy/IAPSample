@@ -52,21 +52,22 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Script\UI\AnimatedWindowController.cs" />
+     <Compile Include="Assets\Script\UI\IAPAnimateWindowController.cs" />
+     <Compile Include="Assets\Script\IAP\IAPManager.cs" />
+     <Compile Include="Assets\Script\Test\GooglePlayTangle.cs" />
      <Compile Include="Assets\Script\UI\ShopWindow.cs" />
+     <Compile Include="Assets\Script\Test\PrefsCleaner.cs" />
      <Compile Include="Assets\Script\Utils\WindowUtil.cs" />
+     <Compile Include="Assets\Script\UI\FailedWindow.cs" />
      <Compile Include="Assets\Script\UI\InShopWidget.cs" />
+     <Compile Include="Assets\Script\Test\AppleTangle.cs" />
      <Compile Include="Assets\Script\UI\DataGroup.cs" />
      <Compile Include="Assets\Script\UI\PopUpWindow.cs" />
      <Compile Include="Assets\Script\Repositories\InAppRepository.cs" />
      <Compile Include="Assets\Script\UI\IAPWindowController.cs" />
      <Compile Include="Assets\Script\Repositories\InAppDefinition.cs" />
      <Compile Include="Assets\Script\UI\IItemRenderer.cs" />
-     <Compile Include="Assets\Script\Test\AppleTangle.cs" />
-     <Compile Include="Assets\Script\Test\GooglePlayTangle.cs" />
-     <Compile Include="Assets\Script\IAP\IAPManager.cs" />
-     <Compile Include="Assets\Script\UI\FailedWindow.cs" />
-     <Compile Include="Assets\Script\Test\PrefsCleaner.cs" />
+     <Compile Include="Assets\Script\Utils\ErrorDatabase.cs" />
  <Reference Include="UnityEngine">
  <HintPath>/Applications/Unity/Hub/Editor/2020.3.13f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
  </Reference>
@@ -700,6 +701,9 @@
  <Reference Include="Unity.2D.Common.Runtime">
  <HintPath>/Users/rozencrants/Desktop/IAPTemplate-master/Library/ScriptAssemblies/Unity.2D.Common.Runtime.dll</HintPath>
  </Reference>
+ <Reference Include="Unity.DeviceSimulator.Editor">
+ <HintPath>/Users/rozencrants/Desktop/IAPTemplate-master/Library/ScriptAssemblies/Unity.DeviceSimulator.Editor.dll</HintPath>
+ </Reference>
  <Reference Include="Unity.2D.SpriteShape.Editor">
  <HintPath>/Users/rozencrants/Desktop/IAPTemplate-master/Library/ScriptAssemblies/Unity.2D.SpriteShape.Editor.dll</HintPath>
  </Reference>
@@ -711,9 +715,6 @@
  </Reference>
  <Reference Include="Unity.2D.SpriteShape.Runtime">
  <HintPath>/Users/rozencrants/Desktop/IAPTemplate-master/Library/ScriptAssemblies/Unity.2D.SpriteShape.Runtime.dll</HintPath>
- </Reference>
- <Reference Include="Unity.DeviceSimulator.Editor">
- <HintPath>/Users/rozencrants/Desktop/IAPTemplate-master/Library/ScriptAssemblies/Unity.DeviceSimulator.Editor.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

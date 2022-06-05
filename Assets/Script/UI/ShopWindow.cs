@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace Script.UI
 {
-    public class ShopWindow : AnimatedWindowController
+    public class ShopWindow : IAPAnimateWindowController
     {
         [SerializeField] private Transform _inAppContainer;
         [SerializeField] private InShopWidget prefabInShopWidget;
@@ -19,15 +19,11 @@ namespace Script.UI
 
         private void Awake()
         {
-            if (Application.platform != RuntimePlatform.IPhonePlayer)
+            if (Application.platform != RuntimePlatform.IPhonePlayer || 
+                Application.platform != RuntimePlatform.OSXPlayer)
             {
                 _restoreButton.gameObject.SetActive(false);
             }
-        }
-
-        private void OnEnable()
-        {
-            IAPManager.RestoreSuccess += OnRestoreSuccess;
         }
 
         protected override void Start()
@@ -35,12 +31,6 @@ namespace Script.UI
             base.Start();
             _dataGroup = new DataGroup<InAppDefinition, InShopWidget>(prefabInShopWidget, _inAppContainer);
             SetData();
-            OnRestoreSuccess();
-        }
-
-        private void OnDisable()
-        {
-            IAPManager.RestoreSuccess -= OnRestoreSuccess;
         }
 
         public void MakeRestore()
@@ -51,14 +41,6 @@ namespace Script.UI
         private void SetData()
         {
             _dataGroup.SetData(InAppRepository.I.Collection);
-        }
-
-        private void OnRestoreSuccess()
-        {
-            if (_iapManager.IsProductRestored())
-            {
-                _restoreButton.gameObject.SetActive(false);
-            }
         }
     }
 }

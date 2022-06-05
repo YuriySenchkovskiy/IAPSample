@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Script.UI
 {
-    public abstract class AnimatedWindowController : MonoBehaviour
+    public abstract class IAPAnimateWindowController : MonoBehaviour
     {
         private static readonly int Show = Animator.StringToHash("Show");
         private static readonly int Hide = Animator.StringToHash("Hide");

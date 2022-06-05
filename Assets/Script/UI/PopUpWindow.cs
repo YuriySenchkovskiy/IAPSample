@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace Script.UI
 {
-    public class PopUpWindow : AnimatedWindowController
+    public class PopUpWindow : IAPAnimateWindowController
     {
         [SerializeField] private Text _name;
         [SerializeField] private Image _image;

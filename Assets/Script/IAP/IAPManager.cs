@@ -1,5 +1,6 @@
 using System;
 using Script.Repositories;
+using Script.Utils;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Purchasing;
@@ -9,16 +10,13 @@ namespace Script.IAP
     public class IAPManager : MonoBehaviour, IStoreListener
     {
         private static IStoreController m_StoreController;          
-        private static IExtensionProvider m_StoreExtensionProvider; 
-        private IAppleExtensions m_AppleExtensions;
-        private IGooglePlayStoreExtensions m_GoogleExtensions;
+        private static IExtensionProvider m_StoreExtensionProvider;
 
-        private string _appleRestore = "Apple restore complete";
-
+        public static UnityAction<string> InitializedFailed;
+        public static UnityAction<string> PurchaseInitializeFailed;
         public static UnityAction PurchaseSuccess;
-        public static UnityAction PurchaseFailed;
-        public static UnityAction RestoreSuccess;
-        public static UnityAction RestoreFailed;
+        public static UnityAction<string> PurchaseFailed;
+        public static UnityAction<string> RestoreFailed;
             
         private void Start()
         {
@@ -32,13 +30,13 @@ namespace Script.IAP
         {
             m_StoreController = controller;
             m_StoreExtensionProvider = extensions;
-            m_AppleExtensions = extensions.GetExtension<IAppleExtensions>();
-            m_GoogleExtensions = extensions.GetExtension<IGooglePlayStoreExtensions>();
         }
         
         public void OnInitializeFailed(InitializationFailureReason error)
         {
-            Debug.Log($"Not initialized. Reason: {error}");
+            var initialize = "OnInitialize";
+            var number = ErrorDatabase.GetErrorNumber(error + initialize);
+            InitializedFailed?.Invoke(number);
         }
         
         public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs purchaseEvent)
@@ -47,8 +45,6 @@ namespace Script.IAP
             var id = product.definition.id;
             var transactionID = product.transactionID;
             
-            // логика успешной покупки - пишем в файл - какой?
-
             // продажа всех видов товаров в одном bundle идет последней в InAppRepository
             if (id == InAppRepository.I.Collection[InAppRepository.I.Collection.Length - 1].ProductID)
             {
@@ -65,48 +61,52 @@ namespace Script.IAP
         
         public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
         {
-            // в случае неудачи делаем возврат в главное меню через кнопку возврата
-            // в меню внутри вызываемого окна
-            Debug.Log($"{product.definition.id} failed because {failureReason}");
-            PurchaseFailed?.Invoke();
+            var number = ErrorDatabase.GetErrorNumber(failureReason.ToString());
+            PurchaseFailed?.Invoke(number);
         }
 
         public void BuyProduct(string name)
         {
             var id = InAppRepository.I.GetID(name);
+            var nullError = "NullInProduct";
+            var initializeError = "IStoreControllerUnavailable";
             
             if (IsInitialized())
             {
                 Product product = m_StoreController.products.WithID(id);
 
-                if (product != null && product.availableToPurchase)
+                if (product != null)
                 {
-                    m_StoreController.InitiatePurchase(product); // запускает ProcessPurchase()
+                    m_StoreController.InitiatePurchase(product);
                 }
                 else
                 {
-                    Debug.Log("BuyProductID: FAIL. Not purchasing product, either is not found or is not available for purchase");
+                    var number = ErrorDatabase.GetErrorNumber(nullError);
+                    PurchaseInitializeFailed?.Invoke(number);
                 }
             }
             else
             {
-                Debug.Log("BuyProductID FAIL. Not initialized.");
+                var number = ErrorDatabase.GetErrorNumber(initializeError);
+                PurchaseInitializeFailed?.Invoke(number);
             }
         }
         
-        // метод только для эпл и их политики восстановления покупок
         public void RestorePurchases()
         {
+            var appleRestore = "AppleRestoreComplete";
+            var restoreError = "RestoreFailed";
+
             m_StoreExtensionProvider.GetExtension<IAppleExtensions>().RestoreTransactions(result => 
             {
                 if (result)
                 {
-                    PlayerPrefs.SetInt(_appleRestore, 0);
-                    RestoreSuccess?.Invoke();
+                    PlayerPrefs.SetInt(appleRestore, 0);
                 }
                 else
                 {
-                    RestoreFailed?.Invoke();
+                    var number = ErrorDatabase.GetErrorNumber(restoreError);
+                    RestoreFailed?.Invoke(number);
                 }
             });
         }
@@ -149,17 +149,7 @@ namespace Script.IAP
 
             return default;
         }
-        
-        public bool IsProductRestored()
-        {
-            if (PlayerPrefs.HasKey(_appleRestore))
-            {
-                return true;
-            }
 
-            return default;
-        }
-        
         private bool IsInitialized()
         {
             return m_StoreController != null && m_StoreExtensionProvider != null;
