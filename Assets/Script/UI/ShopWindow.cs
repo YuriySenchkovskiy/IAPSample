@@ -9,7 +9,7 @@ namespace Script.UI
     public class ShopWindow : IAPAnimateWindowController
     {
         [SerializeField] private Transform _inAppContainer;
-        [SerializeField] private InShopWidget prefabInShopWidget;
+        [SerializeField] private InShopWidget _prefabInShopWidget;
         [SerializeField] private Button _restoreButton;
         [SerializeField] private IAPManager _iapManager;
 
@@ -28,7 +28,7 @@ namespace Script.UI
         protected override void Start()
         {
             base.Start();
-            _dataGroup = new DataGroup<InAppDefinition, InShopWidget>(prefabInShopWidget, _inAppContainer);
+            _dataGroup = new DataGroup<InAppDefinition, InShopWidget>(_prefabInShopWidget, _inAppContainer);
             SetData();
         }
 

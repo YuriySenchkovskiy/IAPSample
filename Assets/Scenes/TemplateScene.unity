@@ -262,14 +262,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1197370294}
     m_Modifications:
-    - target: {fileID: 656583181, guid: c0e7a95000e80490ea61737987c40729, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1210934795, guid: c0e7a95000e80490ea61737987c40729, type: 3}
-      propertyPath: _clickLocker
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 2150400847170511088, guid: c0e7a95000e80490ea61737987c40729, type: 3}
       propertyPath: m_Name
       value: ShopWindow

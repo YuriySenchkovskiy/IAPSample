@@ -52,7 +52,7 @@ namespace Script.UI
         
         private void OnPurchaseSuccess()
         {
-            if (_iapManager.IsProductPurchased(_data.ProductID))
+            if (_iapManager.IsProductPurchased(_data.Name))
             {
                 _button.interactable = false;
                 Close();

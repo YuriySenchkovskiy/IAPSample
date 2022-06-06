@@ -43,8 +43,7 @@ namespace Script.IAP
         {
             var product = purchaseEvent.purchasedProduct;
             var id = product.definition.id;
-            var transactionID = product.transactionID;
-            
+
             // продажа всех видов товаров в одном bundle идет последней в InAppRepository
             if (id == InAppRepository.I.Collection[InAppRepository.I.Collection.Length - 1].ProductID)
             {
@@ -52,7 +51,7 @@ namespace Script.IAP
             }
             else
             {
-                PlayerPrefs.SetInt(id, 0);
+                IAPDataManager.SaveID(id);
             }
             
             PurchaseSuccess?.Invoke();
@@ -100,7 +99,7 @@ namespace Script.IAP
             {
                 if (result)
                 {
-                    PlayerPrefs.SetInt(appleRestore, 0);
+                    
                 }
                 else
                 {
@@ -135,9 +134,9 @@ namespace Script.IAP
             return default;
         }
 
-        public bool IsProductPurchased(string id)
+        public bool IsProductPurchased(string name)
         {
-            if (PlayerPrefs.HasKey(id))
+            if (IAPDataManager.HasID(name))
             {
                 return true;
             }
@@ -171,12 +170,12 @@ namespace Script.IAP
         {
             foreach (var item in InAppRepository.I.Collection)
             {
-                if (PlayerPrefs.HasKey(item.ProductID))
+                if (IAPDataManager.HasID(item.Name))
                 {
                     continue;
                 }
                 
-                PlayerPrefs.SetInt(item.ProductID, 0);
+                IAPDataManager.SaveID(item.ProductID);
             }
         }
     }

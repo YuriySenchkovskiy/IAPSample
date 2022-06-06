@@ -1,3 +1,4 @@
+using Script.IAP;
 using UnityEngine;
 
 namespace Script.Test
@@ -6,7 +7,7 @@ namespace Script.Test
     {
         public void ClearPrefs()
         {
-            PlayerPrefs.DeleteAll();
+            IAPDataManager.DeleteAll();
         }
     }
 }

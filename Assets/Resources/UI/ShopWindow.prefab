@@ -601,7 +601,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inAppContainer: {fileID: 53502780}
-  prefabInShopWidget: {fileID: 8346372783540906836, guid: ff643f2e2ecb7410c9efbf092b689659, type: 3}
+  _prefabInShopWidget: {fileID: 8346372783540906836, guid: ff643f2e2ecb7410c9efbf092b689659, type: 3}
   _restoreButton: {fileID: 1097295258}
   _iapManager: {fileID: 3158331891552598261}
 --- !u!114 &3158331891552598261

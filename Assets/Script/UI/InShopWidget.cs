@@ -56,7 +56,7 @@ namespace Script.UI
 
         private void OnPurchaseSuccess()
         {
-            if (_iapManager.IsProductPurchased(_data.ProductID))
+            if (_iapManager.IsProductPurchased(_data.Name))
             {
                 _purchased.gameObject.SetActive(true);
                 _button.interactable = false;
