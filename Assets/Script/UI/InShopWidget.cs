@@ -15,7 +15,7 @@ namespace Script.UI
         [SerializeField] private Image _purchased;
         [SerializeField] private Button _button;
         [SerializeField] private IAPManager _iapManager;
-        
+
         private InAppDefinition _data;
 
         private void OnEnable()
@@ -42,7 +42,7 @@ namespace Script.UI
 
         public void OnSelect()
         {
-            _iapManager.BuyProduct(_data.Name);
+            _iapManager.BuyProduct(_data.ProductID);
         }
 
         private void UpdateWidget()
@@ -50,13 +50,13 @@ namespace Script.UI
             _image.sprite = _data.Image;
             _name.text = _data.Name;
 
-            float priceFromStore = _iapManager.GetPrice(_data.Name);
+            float priceFromStore = _iapManager.GetPrice(_data.ProductID);
             _price.text = priceFromStore == 0f ? _data.Price.ToString(CultureInfo.InvariantCulture) : priceFromStore.ToString(CultureInfo.InvariantCulture);
         }
 
         private void OnPurchaseSuccess()
         {
-            if (_iapManager.IsProductPurchased(_data.Name))
+            if (_iapManager.IsProductPurchased(_data.ProductID))
             {
                 _purchased.gameObject.SetActive(true);
                 _button.interactable = false;

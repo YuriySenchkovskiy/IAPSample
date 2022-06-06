@@ -72,6 +72,8 @@
      <Compile Include="Assets\Script\IAP\IAPDataManager.cs" />
      <Compile Include="Assets\Script\Utils\Identifier\UniqueIdentifier.cs" />
      <Compile Include="Assets\Script\Test\Test.cs" />
+     <Compile Include="Assets\Script\Utils\JsonUtil.cs" />
+     <Compile Include="Assets\Script\Utils\AesUtil.cs" />
  <Reference Include="UnityEngine">
  <HintPath>/Applications/Unity/Hub/Editor/2020.3.13f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
  </Reference>

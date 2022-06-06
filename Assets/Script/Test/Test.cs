@@ -2,6 +2,7 @@ using System;
 using Script.IAP;
 using UnityEngine;
 using UnityEngine.Purchasing;
+using UnityEngine.UI;
 
 namespace Script.Test
 {
@@ -10,10 +11,11 @@ namespace Script.Test
         private void Start()
         {
             IAPDataManager.DeleteAll();
-            IAPDataManager.SaveID("asdfasdf");
-            IAPDataManager.HasID("asdfasdf");
+            IAPDataManager.SaveID("com.yuriy.testtemplate.firstProduct");
+            
+            Debug.Log(IAPDataManager.HasID("first"));
             //IAPDataManager.DeleteAll();
-            // IAPDataManager.HasID("asdfasdf");
+            //IAPDataManager.HasID("asdfasdf");
         }
     }
 }

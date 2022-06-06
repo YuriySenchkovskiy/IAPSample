@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Script.Utils.Identifier
 {
+    [Serializable]
     public class UniqueIdentifier : MonoBehaviour
     {
         private static string _number;

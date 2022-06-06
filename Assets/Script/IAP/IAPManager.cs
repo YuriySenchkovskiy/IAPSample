@@ -65,9 +65,8 @@ namespace Script.IAP
             PurchaseFailed?.Invoke(number);
         }
 
-        public void BuyProduct(string name)
+        public void BuyProduct(string id)
         {
-            var id = InAppRepository.I.GetID(name);
             var nullError = "NullInProduct";
             var initializeError = "IStoreControllerUnavailable";
             
@@ -111,7 +110,7 @@ namespace Script.IAP
             });
         }
 
-        public float GetPrice(string name)
+        public float GetPrice(string id)
         {
             if (_storeController == null)
             {
@@ -124,8 +123,6 @@ namespace Script.IAP
             {
                 return default;
             }
-            
-            var id = InAppRepository.I.GetID(name);
 
             foreach (var product in productsAll)
             {
@@ -138,10 +135,8 @@ namespace Script.IAP
             return default;
         }
 
-        public bool IsProductPurchased(string name)
+        public bool IsProductPurchased(string id)
         {
-            var id = InAppRepository.I.GetID(name);
-            
             if (PlayerPrefs.HasKey(id))
             {
                 return true;

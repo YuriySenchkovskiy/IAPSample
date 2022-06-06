@@ -5,16 +5,13 @@ namespace Script.IAP
     [Serializable]
     public struct IAPDefinition
     {
-        private readonly string _productId;
-        private readonly string _identifier;
+        public string ProductID;
+        public string Identifier;
 
-        public string ProductID => _productId;
-        public string Identifier => _identifier;
-        
         public IAPDefinition(string productId, string identifier)
         {
-            _productId = productId;
-            _identifier = identifier;
+            ProductID = productId;
+            Identifier = identifier;
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using Script.IAP;
 using Script.Repositories;
 using UnityEngine;
@@ -11,7 +12,6 @@ namespace Script.UI
         [SerializeField] private InShopWidget prefabInShopWidget;
         [SerializeField] private Button _restoreButton;
         [SerializeField] private IAPManager _iapManager;
-        // тут нужен звук
 
         private DataGroup<InAppDefinition, InShopWidget> _dataGroup;
         private InShopWidget[] _widgets;
