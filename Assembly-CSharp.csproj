@@ -54,13 +54,11 @@
   <ItemGroup>
      <Compile Include="Assets\Script\UI\IAPAnimateWindowController.cs" />
      <Compile Include="Assets\Script\IAP\IAPManager.cs" />
-     <Compile Include="Assets\Script\Test\GooglePlayTangle.cs" />
      <Compile Include="Assets\Script\UI\ShopWindow.cs" />
      <Compile Include="Assets\Script\Test\DataCleaner.cs" />
      <Compile Include="Assets\Script\Utils\WindowUtil.cs" />
      <Compile Include="Assets\Script\UI\FailedWindow.cs" />
      <Compile Include="Assets\Script\UI\InShopWidget.cs" />
-     <Compile Include="Assets\Script\Test\AppleTangle.cs" />
      <Compile Include="Assets\Script\UI\DataGroup.cs" />
      <Compile Include="Assets\Script\UI\PopUpWindow.cs" />
      <Compile Include="Assets\Script\Repositories\InAppRepository.cs" />
@@ -71,7 +69,6 @@
      <Compile Include="Assets\Script\IAP\IAPDefinition.cs" />
      <Compile Include="Assets\Script\IAP\IAPDataManager.cs" />
      <Compile Include="Assets\Script\Utils\Identifier\UniqueIdentifier.cs" />
-     <Compile Include="Assets\Script\Test\Test.cs" />
      <Compile Include="Assets\Script\Utils\AesUtil.cs" />
      <Compile Include="Assets\Script\Utils\BinaryUtil.cs" />
  <Reference Include="UnityEngine">

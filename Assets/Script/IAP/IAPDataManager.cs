@@ -19,15 +19,11 @@ namespace Script.IAP
         public static void SaveID(string id)
         {
             IAPDefinition iapDefinition = new IAPDefinition(id, UniqueIdentifier.Number);
-            var binary = BinaryUtil.SerializeObject(iapDefinition) + "\n";
-            //var binary = BinaryUtil.SerializeObject(iapDefinition);
-            //var aes = AesUtil.Encrypt(binary) + "\n";
+            var binary = BinaryUtil.SerializeObject(iapDefinition);
+            AesUtil aes = new AesUtil();
+            var rawData = aes.Encrypt(binary, "Ijustsayingyoucanthaveitbothways") + "\n";
             
-            //Debug.Log("SAVE BINARY: " + binary);
-            //File.AppendAllText(_filePath, aes);
-            //Debug.Log("SAVE AES: " + aes);
-            
-            File.AppendAllText(_filePath, binary);
+            File.AppendAllText(_filePath, rawData);
         }
 
         public static bool HasID(string name)
@@ -39,16 +35,12 @@ namespace Script.IAP
             {
                 var allProducts = File.ReadAllLines(_filePath);
 
-                for (int i = 0; i < allProducts.Length; i++)
+                foreach (var product in allProducts)
                 {
-                    var product = BinaryUtil.DeserializeObject(allProducts[i]) as IAPDefinition;
-                    definitions.Add(product);
-
-                    // Debug.Log($"{i} PRODUCT AES: " + allProducts[i]);
-                    // var binary = AesUtil.Decrypt(allProducts[i]);
-                    // Debug.Log($"{i} PRODUCT BINARY: " + binary);
-                    // var product = BinaryUtil.DeserializeObject(binary) as IAPDefinition;
-                    // definitions.Add(product);
+                    AesUtil aes = new AesUtil();
+                    var binary = aes.Decrypt(product, "Ijustsayingyoucanthaveitbothways");
+                    var definition = BinaryUtil.DeserializeObject(binary) as IAPDefinition;
+                    definitions.Add(definition);
                 }
 
                 status = GetIdStatus(definitions, name);
