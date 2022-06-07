@@ -1,5 +1,5 @@
+using System.Collections.Generic;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using Script.Repositories;
 using Script.Utils;
 using Script.Utils.Identifier;
@@ -15,36 +15,43 @@ namespace Script.IAP
         {
             _filePath = Application.persistentDataPath + "/player.iap";
         }
-
+        
         public static void SaveID(string id)
         {
-            IAPDefinition[] iapDefinition = {new IAPDefinition(id, UniqueIdentifier.Number)};
-            var jsonData = JsonUtil.ToJson(iapDefinition,true);
-            BinaryFormatter formatter = new BinaryFormatter();
-
-            using (FileStream stream = new FileStream(_filePath, FileMode.Append))
-            {
-                var aesData = AesUtil.Encrypt(jsonData);
-                formatter.Serialize(stream, aesData);
-                stream.Close();
-            }
+            IAPDefinition iapDefinition = new IAPDefinition(id, UniqueIdentifier.Number);
+            var binary = BinaryUtil.SerializeObject(iapDefinition) + "\n";
+            //var binary = BinaryUtil.SerializeObject(iapDefinition);
+            //var aes = AesUtil.Encrypt(binary) + "\n";
+            
+            //Debug.Log("SAVE BINARY: " + binary);
+            //File.AppendAllText(_filePath, aes);
+            //Debug.Log("SAVE AES: " + aes);
+            
+            File.AppendAllText(_filePath, binary);
         }
 
         public static bool HasID(string name)
         {
             var status = false;
-            
+            List<IAPDefinition> definitions = new List<IAPDefinition>();
+
             if (File.Exists(_filePath))
             {
-                BinaryFormatter formatter = new BinaryFormatter();
-                using (FileStream stream = new FileStream(_filePath, FileMode.Open))
+                var allProducts = File.ReadAllLines(_filePath);
+
+                for (int i = 0; i < allProducts.Length; i++)
                 {
-                    var aesData = (string)formatter.Deserialize(stream);
-                    var jsonData = AesUtil.Decrypt(aesData);
-                    var definitions = JsonUtil.FromJson<IAPDefinition>(jsonData);
-                    status = GetIdStatus(definitions, name);
-                    stream.Close();
+                    var product = BinaryUtil.DeserializeObject(allProducts[i]) as IAPDefinition;
+                    definitions.Add(product);
+
+                    // Debug.Log($"{i} PRODUCT AES: " + allProducts[i]);
+                    // var binary = AesUtil.Decrypt(allProducts[i]);
+                    // Debug.Log($"{i} PRODUCT BINARY: " + binary);
+                    // var product = BinaryUtil.DeserializeObject(binary) as IAPDefinition;
+                    // definitions.Add(product);
                 }
+
+                status = GetIdStatus(definitions, name);
             }
             
             return status;
@@ -55,7 +62,7 @@ namespace Script.IAP
             File.Delete(_filePath);
         }
 
-        private static bool GetIdStatus(IAPDefinition[] definitions, string name)
+        private static bool GetIdStatus(List<IAPDefinition> definitions, string name)
         {
             var id = InAppRepository.I.GetID(name);
 

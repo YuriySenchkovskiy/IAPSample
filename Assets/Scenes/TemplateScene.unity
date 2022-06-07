@@ -1110,7 +1110,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2114047105}
         m_TargetAssemblyTypeName: Script.Generated.PrefsCleaner, Assembly-CSharp
-        m_MethodName: ClearPrefs
+        m_MethodName: ClearData
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

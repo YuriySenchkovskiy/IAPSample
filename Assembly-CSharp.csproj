@@ -56,7 +56,7 @@
      <Compile Include="Assets\Script\IAP\IAPManager.cs" />
      <Compile Include="Assets\Script\Test\GooglePlayTangle.cs" />
      <Compile Include="Assets\Script\UI\ShopWindow.cs" />
-     <Compile Include="Assets\Script\Test\PrefsCleaner.cs" />
+     <Compile Include="Assets\Script\Test\DataCleaner.cs" />
      <Compile Include="Assets\Script\Utils\WindowUtil.cs" />
      <Compile Include="Assets\Script\UI\FailedWindow.cs" />
      <Compile Include="Assets\Script\UI\InShopWidget.cs" />
@@ -72,8 +72,8 @@
      <Compile Include="Assets\Script\IAP\IAPDataManager.cs" />
      <Compile Include="Assets\Script\Utils\Identifier\UniqueIdentifier.cs" />
      <Compile Include="Assets\Script\Test\Test.cs" />
-     <Compile Include="Assets\Script\Utils\JsonUtil.cs" />
      <Compile Include="Assets\Script\Utils\AesUtil.cs" />
+     <Compile Include="Assets\Script\Utils\BinaryUtil.cs" />
  <Reference Include="UnityEngine">
  <HintPath>/Applications/Unity/Hub/Editor/2020.3.13f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
  </Reference>

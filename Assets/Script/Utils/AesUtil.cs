@@ -61,7 +61,7 @@ namespace Script.Utils
         private static void GenerateKeyBytes()
         {
             int sum = 0;
-            string name = "Love, Money, Rock'n'Roll";
+            string name = "My favorite game";
             
             foreach (var symbol in name)
             {

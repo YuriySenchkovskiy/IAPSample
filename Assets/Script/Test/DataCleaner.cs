@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace Script.Test
 {
-    public class PrefsCleaner : MonoBehaviour
+    public class DataCleaner : MonoBehaviour
     {
-        public void ClearPrefs()
+        public void ClearData()
         {
             IAPDataManager.DeleteAll();
         }

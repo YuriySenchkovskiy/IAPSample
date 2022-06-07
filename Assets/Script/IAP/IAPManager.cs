@@ -92,16 +92,11 @@ namespace Script.IAP
         
         public void RestorePurchases()
         {
-            var appleRestore = "AppleRestoreComplete";
             var restoreError = "RestoreFailed";
 
             _storeExtensionProvider.GetExtension<IAppleExtensions>().RestoreTransactions(result => 
             {
-                if (result)
-                {
-                    
-                }
-                else
+                if (result == false)
                 {
                     var number = ErrorDatabase.GetErrorNumber(restoreError);
                     RestoreFailed?.Invoke(number);
