@@ -10,10 +10,12 @@ namespace Script.IAP
     public static class IAPDataManager
     {
         private static readonly string _filePath;
+        private static readonly string _key;
 
         static IAPDataManager()
         {
             _filePath = Application.persistentDataPath + "/player.iap";
+            _key = "Ijustsayingyoucanthaveitbothways";
         }
         
         public static void SaveID(string id)
@@ -21,7 +23,7 @@ namespace Script.IAP
             IAPDefinition iapDefinition = new IAPDefinition(id, UniqueIdentifier.Number);
             var binary = BinaryUtil.SerializeObject(iapDefinition);
             AesUtil aes = new AesUtil();
-            var rawData = aes.Encrypt(binary, "Ijustsayingyoucanthaveitbothways") + "\n";
+            var rawData = aes.Encrypt(binary, _key) + "\n";
             
             File.AppendAllText(_filePath, rawData);
         }
@@ -38,7 +40,7 @@ namespace Script.IAP
                 foreach (var product in allProducts)
                 {
                     AesUtil aes = new AesUtil();
-                    var binary = aes.Decrypt(product, "Ijustsayingyoucanthaveitbothways");
+                    var binary = aes.Decrypt(product, _key);
                     var definition = BinaryUtil.DeserializeObject(binary) as IAPDefinition;
                     definitions.Add(definition);
                 }
