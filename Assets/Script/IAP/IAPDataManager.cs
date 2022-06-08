@@ -20,40 +20,40 @@ namespace Script.IAP
         
         public static void SaveID(string id)
         {
-            IAPDefinition iapDefinition = new IAPDefinition(id, UniqueIdentifier.Number);
-            var binary = BinaryUtil.SerializeObject(iapDefinition);
             AesUtil aes = new AesUtil();
-            var rawData = aes.Encrypt(binary, _key) + "\n";
+            IAPDefinition iapDefinition = new IAPDefinition(id, UniqueIdentifier.Number);
+
+            var iapBase = GetAllData();
+            iapBase.AddDefinition(iapDefinition);
+            var binary = BinaryUtil.SerializeObject(iapBase);
+            var rawData = aes.Encrypt(binary, _key);
             
-            File.AppendAllText(_filePath, rawData);
+            File.WriteAllBytes(_filePath, rawData);
         }
 
         public static bool HasID(string name)
         {
-            var status = false;
-            List<IAPDefinition> definitions = new List<IAPDefinition>();
-
-            if (File.Exists(_filePath))
-            {
-                var allProducts = File.ReadAllLines(_filePath);
-
-                foreach (var product in allProducts)
-                {
-                    AesUtil aes = new AesUtil();
-                    var binary = aes.Decrypt(product, _key);
-                    var definition = BinaryUtil.DeserializeObject(binary) as IAPDefinition;
-                    definitions.Add(definition);
-                }
-
-                status = GetIdStatus(definitions, name);
-            }
-            
-            return status;
+            var iapBase = GetAllData();
+            return GetIdStatus(iapBase?.Definitions, name);;
         }
 
         public static void DeleteAll()
         {
             File.Delete(_filePath);
+        }
+
+        private static IAPBase GetAllData()
+        {
+            if (File.Exists(_filePath))
+            {
+                AesUtil aes = new AesUtil();
+                var allProducts = File.ReadAllBytes(_filePath);
+                var binary = aes.Decrypt(allProducts, _key);
+                
+                return BinaryUtil.DeserializeObject(binary) as IAPBase;
+            }
+
+            return new IAPBase();
         }
 
         private static bool GetIdStatus(List<IAPDefinition> definitions, string name)

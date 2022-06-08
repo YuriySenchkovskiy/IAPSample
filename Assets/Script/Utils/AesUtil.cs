@@ -7,25 +7,23 @@ namespace Script.Utils
 {
     public class AesUtil
     {
-        public string Encrypt(string original, string key) //key - 32 символа
+        public byte[] Encrypt(string original, string key) //key - 32 символа
         {
             byte[] iv = Encoding.ASCII.GetBytes("My?favorite/game");
             byte[] keyBytes = Encoding.ASCII.GetBytes(key);
             byte[] encrypted = null;
             
             encrypted = EncryptStringToBytes_Aes(original, keyBytes, iv);
-            string encryptedString = Convert.ToBase64String(encrypted);
-            return encryptedString;
+            return encrypted;
         }
 
-        public string Decrypt(string encryptedString, string key)
+        public string Decrypt(byte[] encrypted, string key)
         {
-            byte[] inputBuffer = Convert.FromBase64String(encryptedString);
             byte[] iv = Encoding.ASCII.GetBytes("My?favorite/game");
             byte[] keyBytes = Encoding.ASCII.GetBytes(key);
             string outData = null;
             
-            outData = DecryptStringFromBytes_Aes(inputBuffer, keyBytes, iv);
+            outData = DecryptStringFromBytes_Aes(encrypted, keyBytes, iv);
             return outData;
         }
         

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace Script.IAP
 {
@@ -15,6 +17,24 @@ namespace Script.IAP
         {
             _productId = productId;
             _identifier = identifier;
+        }
+    }
+
+    [Serializable]
+    public class IAPBase
+    {
+        private List<IAPDefinition> _definitions;
+
+        public List<IAPDefinition> Definitions => _definitions;
+
+        public IAPBase()
+        {
+            _definitions = new List<IAPDefinition>();
+        }
+        
+        public void AddDefinition(IAPDefinition definition)
+        {
+            _definitions.Add(definition);
         }
     }
 }
