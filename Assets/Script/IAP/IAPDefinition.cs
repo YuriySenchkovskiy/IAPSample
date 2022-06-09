@@ -8,10 +8,10 @@ namespace Script.IAP
     {
         private string _productId;
         private string _identifier;
-        
+
         public string ProductID => _productId;
         public string Identifier => _identifier;
-        
+
         public IAPDefinition(string productId, string identifier)
         {
             _productId = productId;

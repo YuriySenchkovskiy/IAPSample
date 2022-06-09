@@ -10,12 +10,18 @@ namespace Script.IAP
     public static class IAPDataManager
     {
         private static readonly string _filePath;
-        private static readonly string _key;
+        private static readonly byte[] _keyBytes;
 
         static IAPDataManager()
         {
             _filePath = Application.persistentDataPath + "/player.iap";
-            _key = "Ijustsayingyoucanthaveitbothways";
+            _keyBytes = new byte[]
+            {
+                26, 98, 14, 207, 216, 177, 72, 129, 149, 249, 62, 164, 175, 79, 177, 123, 
+                235, 61, 199, 81, 235, 155, 174, 43, 93, 93, 105, 109, 26, 146, 118, 123 
+            };
+
+            Debug.Log(byte.MaxValue);
         }
         
         public static void SaveID(string id)
@@ -26,7 +32,7 @@ namespace Script.IAP
             var iapBase = GetAllData();
             iapBase.AddDefinition(iapDefinition);
             var binary = BinaryUtil.SerializeObject(iapBase);
-            var rawData = aes.Encrypt(binary, _key);
+            var rawData = aes.Encrypt(binary, _keyBytes);
             
             File.WriteAllBytes(_filePath, rawData);
         }
@@ -48,7 +54,7 @@ namespace Script.IAP
             {
                 AesUtil aes = new AesUtil();
                 var allProducts = File.ReadAllBytes(_filePath);
-                var binary = aes.Decrypt(allProducts, _key);
+                var binary = aes.Decrypt(allProducts, _keyBytes);
                 
                 return BinaryUtil.DeserializeObject(binary) as IAPBase;
             }

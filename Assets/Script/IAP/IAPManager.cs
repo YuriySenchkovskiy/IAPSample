@@ -9,6 +9,11 @@ namespace Script.IAP
 {
     public class IAPManager : MonoBehaviour, IStoreListener
     {
+        private const string Initialize = "OnInitialize";
+        private const string NullError = "NullInProduct";
+        private const string InitializeError = "IStoreControllerUnavailable";
+        private const string RestoreError = "RestoreFailed";
+        
         private static IStoreController _storeController;          
         private static IExtensionProvider _storeExtensionProvider;
 
@@ -17,6 +22,8 @@ namespace Script.IAP
         public static UnityAction PurchaseSuccess;
         public static UnityAction<string> PurchaseFailed;
         public static UnityAction<string> RestoreFailed;
+        
+        private bool IsInitialized => _storeController != null && _storeExtensionProvider != null;
             
         private void Start()
         {
@@ -34,8 +41,7 @@ namespace Script.IAP
         
         public void OnInitializeFailed(InitializationFailureReason error)
         {
-            var initialize = "OnInitialize";
-            var number = ErrorDatabase.GetErrorNumber(error + initialize);
+            var number = ErrorDatabase.GetErrorNumber(error + Initialize);
             InitializedFailed?.Invoke(number);
         }
         
@@ -43,9 +49,8 @@ namespace Script.IAP
         {
             var product = purchaseEvent.purchasedProduct;
             var id = product.definition.id;
-
-            // продажа всех видов товаров в одном bundle идет последней в InAppRepository
-            if (id == InAppRepository.I.Collection[InAppRepository.I.Collection.Length - 1].ProductID)
+            
+            if (InAppRepository.I.GetBundleStatus(id))
             {
                 BuyBundle();
             }
@@ -66,10 +71,7 @@ namespace Script.IAP
 
         public void BuyProduct(string id)
         {
-            var nullError = "NullInProduct";
-            var initializeError = "IStoreControllerUnavailable";
-            
-            if (IsInitialized())
+            if (IsInitialized)
             {
                 Product product = _storeController.products.WithID(id);
 
@@ -79,26 +81,24 @@ namespace Script.IAP
                 }
                 else
                 {
-                    var number = ErrorDatabase.GetErrorNumber(nullError);
+                    var number = ErrorDatabase.GetErrorNumber(NullError);
                     PurchaseInitializeFailed?.Invoke(number);
                 }
             }
             else
             {
-                var number = ErrorDatabase.GetErrorNumber(initializeError);
+                var number = ErrorDatabase.GetErrorNumber(InitializeError);
                 PurchaseInitializeFailed?.Invoke(number);
             }
         }
         
         public void RestorePurchases()
         {
-            var restoreError = "RestoreFailed";
-
             _storeExtensionProvider.GetExtension<IAppleExtensions>().RestoreTransactions(result => 
             {
                 if (result == false)
                 {
-                    var number = ErrorDatabase.GetErrorNumber(restoreError);
+                    var number = ErrorDatabase.GetErrorNumber(RestoreError);
                     RestoreFailed?.Invoke(number);
                 }
             });
@@ -139,14 +139,9 @@ namespace Script.IAP
             return default;
         }
 
-        private bool IsInitialized()
-        {
-            return _storeController != null && _storeExtensionProvider != null;
-        }
-
         private void InitializePurchasing()
         {
-            if (IsInitialized())
+            if (IsInitialized)
             {
                 return;
             }

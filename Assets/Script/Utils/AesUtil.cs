@@ -7,20 +7,18 @@ namespace Script.Utils
 {
     public class AesUtil
     {
-        public byte[] Encrypt(string original, string key) //key - 32 символа
+        public byte[] Encrypt(string original, byte[] keyBytes) //key - 32 символа
         {
             byte[] iv = Encoding.ASCII.GetBytes("My?favorite/game");
-            byte[] keyBytes = Encoding.ASCII.GetBytes(key);
             byte[] encrypted = null;
             
             encrypted = EncryptStringToBytes_Aes(original, keyBytes, iv);
             return encrypted;
         }
 
-        public string Decrypt(byte[] encrypted, string key)
+        public string Decrypt(byte[] encrypted, byte[] keyBytes)
         {
             byte[] iv = Encoding.ASCII.GetBytes("My?favorite/game");
-            byte[] keyBytes = Encoding.ASCII.GetBytes(key);
             string outData = null;
             
             outData = DecryptStringFromBytes_Aes(encrypted, keyBytes, iv);
