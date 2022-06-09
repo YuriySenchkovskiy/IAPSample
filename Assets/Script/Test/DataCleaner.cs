@@ -8,6 +8,7 @@ namespace Script.Test
         public void ClearData()
         {
             IAPDataManager.DeleteAll();
+            Debug.Log("");
         }
     }
 }
