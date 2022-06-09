@@ -20,8 +20,6 @@ namespace Script.IAP
                 26, 98, 14, 207, 216, 177, 72, 129, 149, 249, 62, 164, 175, 79, 177, 123, 
                 235, 61, 199, 81, 235, 155, 174, 43, 93, 93, 105, 109, 26, 146, 118, 123 
             };
-
-            Debug.Log(byte.MaxValue);
         }
         
         public static void SaveID(string id)
