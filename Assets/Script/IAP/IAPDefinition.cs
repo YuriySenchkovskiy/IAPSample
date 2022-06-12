@@ -22,15 +22,10 @@ namespace Script.IAP
     [Serializable]
     public class IAPBase
     {
-        private List<IAPDefinition> _definitions;
+        private readonly List<IAPDefinition> _definitions = new List<IAPDefinition>();
 
         public List<IAPDefinition> Definitions => _definitions;
 
-        public IAPBase()
-        {
-            _definitions = new List<IAPDefinition>();
-        }
-        
         public void AddDefinition(IAPDefinition definition)
         {
             _definitions.Add(definition);

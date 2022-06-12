@@ -1,72 +1,54 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Script.Repositories
 {
     [CreateAssetMenu(fileName = FileName, menuName = "Definition/InApp", order = 51)]
-    public class InAppRepository : ScriptableObject
+    public class InAppRepository : ScriptableObject, ISerializationCallbackReceiver
     {
         [SerializeField] private InAppDefinition[] _collection;
+        
         private const string FileName = "InApp";
-        
-        public static InAppRepository I => _instance == null ? LoadDefinitions() : _instance;
         private static InAppRepository _instance;
-        
+        private readonly Dictionary<string, InAppDefinition> _nameDefinitions = new Dictionary<string, InAppDefinition>();
+        private readonly Dictionary<string, InAppDefinition> _bundleDefinitions = new Dictionary<string, InAppDefinition>();
+
+        public static InAppRepository I => _instance == null ? LoadDefinitions() : _instance;
         public InAppDefinition[] Collection => _collection;
 
-        public string GetID(string name)
+        public void OnBeforeSerialize()
         {
-            if (string.IsNullOrEmpty(name))
-            {
-                return default;
-            }
-            
+            _nameDefinitions.Clear();
+            _bundleDefinitions.Clear();
+        }
+
+        public void OnAfterDeserialize()
+        {
             foreach (var definition in _collection)
             {
-                if (definition.Name == name)
-                {
-                    return definition.ProductID;
-                }
+                _nameDefinitions.Add(definition.Name, definition);
+                _bundleDefinitions.Add(definition.ProductID, definition);
             }
-
-            return default;
+        }
+        
+        public string GetID(string name)
+        {
+            return string.IsNullOrEmpty(name) ? default :
+                _nameDefinitions.TryGetValue(name, out InAppDefinition def) ? def.ProductID : default;
         }
 
         public InAppDefinition GetData(string name)
         {
-            if (string.IsNullOrEmpty(name))
-            {
-                return default;
-            }
-            
-            foreach (var definition in _collection)
-            {
-                if (definition.Name == name)
-                {
-                    return definition;
-                }
-            }
-            
-            return default;
+           return string.IsNullOrEmpty(name) ? default : 
+               _nameDefinitions.TryGetValue(name, out InAppDefinition def) ? def : default;
         }
 
         public bool GetBundleStatus(string id)
         {
-            if (string.IsNullOrEmpty(name))
-            {
-                return default;
-            }
-            
-            foreach (var definition in _collection)
-            {
-                if (definition.ProductID == id)
-                {
-                    return definition.IsBundle;
-                }
-            }
-            
-            return default;
+            return string.IsNullOrEmpty(name) ? default :
+                _bundleDefinitions.ContainsKey(id) ? _bundleDefinitions[id].IsBundle : default;
         }
-        
+
 #if UNITY_EDITOR
         public InAppDefinition[] ItemsForEditor => _collection;
 #endif
