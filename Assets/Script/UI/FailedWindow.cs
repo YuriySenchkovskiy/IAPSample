@@ -1,13 +1,13 @@
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Script.UI
 {
     public class FailedWindow : IAPAnimateWindowController
     {
-        [SerializeField] private Text _text;
+        [SerializeField] private TextMeshProUGUI _text;
+        [SerializeField] private TextMeshProUGUI _error;
         [SerializeField] private string _message;
-        [SerializeField] private Text _error;
 
         private void OnEnable()
         {
@@ -27,7 +27,7 @@ namespace Script.UI
 
         public void BackToMainMenu()
         {
-            Debug.Log("логика загрузки сцены главного меню по нажатию на кнопку");
+            Debug.Log("add some logic here to load game menu scene");
         }
 
         private void OnFailedCreate(string error)

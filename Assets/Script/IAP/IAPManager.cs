@@ -2,7 +2,6 @@ using System;
 using Script.Repositories;
 using Script.Utils;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.Purchasing;
 
 namespace Script.IAP
@@ -17,11 +16,11 @@ namespace Script.IAP
         private static IStoreController _storeController;          
         private static IExtensionProvider _storeExtensionProvider;
 
-        public static UnityAction<string> InitializedFailed;
-        public static UnityAction<string> PurchaseInitializeFailed;
-        public static UnityAction PurchaseSuccess;
-        public static UnityAction<string> PurchaseFailed;
-        public static UnityAction<string> RestoreFailed;
+        public static Action<string> InitializedFailed;
+        public static Action<string> PurchaseInitializeFailed;
+        public static Action PurchaseSuccess;
+        public static Action<string> PurchaseFailed;
+        public static Action<string> RestoreFailed;
         
         private bool IsInitialized => _storeController != null && _storeExtensionProvider != null;
             

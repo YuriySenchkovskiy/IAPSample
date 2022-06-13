@@ -6,8 +6,8 @@ namespace Script.Utils.Identifier
     [Serializable]
     public class UniqueIdentifier : MonoBehaviour
     {
+        private const string Exist = "exist";
         private static string _number;
-        private string _exist = "exist";
 
         public static string Number => _number;
 
@@ -17,22 +17,24 @@ namespace Script.Utils.Identifier
             
             if (string.IsNullOrEmpty(_number))
             {
-                AddIdentifier();
+                SetIdentifier();
                 _number = GetIdentifier();
             }
         }
 
         private string GetIdentifier()
         {
-            return PlayerPrefs.HasKey(_exist) ? 
-                PlayerPrefs.GetString(_exist) != SystemInfo.unsupportedIdentifier ?
-                    PlayerPrefs.GetString(_exist) : null : null;
+            return PlayerPrefs.HasKey(Exist)
+                ? PlayerPrefs.GetString(Exist) != SystemInfo.unsupportedIdentifier 
+                    ? PlayerPrefs.GetString(Exist) 
+                    : null
+                : null;
         }
         
-        private void AddIdentifier()
+        private void SetIdentifier()
         {
             var identifier = SystemInfo.deviceUniqueIdentifier;
-            PlayerPrefs.SetString(_exist, identifier);
+            PlayerPrefs.SetString(Exist, identifier);
         }
     }
 }

@@ -7,39 +7,30 @@ namespace Script.Utils
     {
         private static readonly Dictionary<string, string> _errors = new Dictionary<string, string>()
         {
-            // неучтенная ошибка
-            {"001", "UnknownError"},
+            {"UnknownError", "001"},
             // ошибки во время инициализации магазина
-            {"010", "PurchasingUnavailableOnInitialize"},
-            {"011", "NoProductsAvailableOnInitialize"},
-            {"012", "AppNotKnownOnInitialize"},
+            {"PurchasingUnavailableOnInitialize", "010"},
+            {"NoProductsAvailableOnInitialize", "011"},
+            {"AppNotKnownOnInitialize", "012"},
             // ошибки во время инициализации продажи
-            {"020", "NullInProduct"},
+            {"NullInProduct", "020"},
             // человек зашел в магазин, потом вышел в настройки и отключил возможность покупок, вернулся в магазин
-            {"021", "IStoreControllerUnavailable"}, 
+            {"IStoreControllerUnavailable", "021"}, 
             // ошибки во время продажи
-            {"030", "PurchasingUnavailable"},
-            {"031", "ExistingPurchasePending"},
-            {"032", "ProductUnavailable"},
-            {"033", "SignatureInvalid"},
-            {"034", "UserCancelled"},
-            {"035", "PaymentDeclined"},
-            {"036", "Unknown"},
+            {"PurchasingUnavailable", "030"},
+            {"ExistingPurchasePending", "031"},
+            {"ProductUnavailable", "032"},
+            {"SignatureInvalid", "033"},
+            {"UserCancelled", "034"},
+            {"PaymentDeclined", "035"},
+            {"Unknown", "036"},
             // ошибка восстановления покупок apple
-            {"040", "RestoreFailed"}
+            {"RestoreFailed", "040"}
         };
 
         public static string GetErrorNumber(string error)
         {
-            foreach (var err in _errors)
-            {
-                if (err.Value == error)
-                {
-                    return err.Key;
-                }
-            }
-
-            return _errors.First().Key;
+            return _errors.TryGetValue(error, out string value) ? value : _errors.First().Value;
         }
     }
 }

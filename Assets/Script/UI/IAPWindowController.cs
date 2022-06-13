@@ -1,3 +1,4 @@
+using System;
 using Script.IAP;
 using Script.Utils;
 using UnityEngine;
@@ -10,8 +11,8 @@ namespace Script.UI
         [SerializeField] private string _shopPath;
         [SerializeField] private string _failedPath;
 
-        public static UnityAction<string> PopUpCreate;
-        public static UnityAction<string> FailedCreate;
+        public static Action<string> PopUpCreate;
+        public static Action<string> FailedCreate;
         
         private void OnEnable()
          {

@@ -18,12 +18,13 @@ namespace Script.Repositories
 
         public void OnBeforeSerialize()
         {
-            _nameDefinitions.Clear();
-            _bundleDefinitions.Clear();
         }
 
         public void OnAfterDeserialize()
         {
+            _nameDefinitions.Clear();
+            _bundleDefinitions.Clear();
+            
             foreach (var definition in _collection)
             {
                 _nameDefinitions.Add(definition.Name, definition);
@@ -33,20 +34,17 @@ namespace Script.Repositories
         
         public string GetID(string name)
         {
-            return string.IsNullOrEmpty(name) ? default :
-                _nameDefinitions.TryGetValue(name, out InAppDefinition def) ? def.ProductID : default;
+            return _nameDefinitions.TryGetValue(name, out InAppDefinition def) ? def.ProductID : default;
         }
 
         public InAppDefinition GetData(string name)
         {
-           return string.IsNullOrEmpty(name) ? default : 
-               _nameDefinitions.TryGetValue(name, out InAppDefinition def) ? def : default;
+           return _nameDefinitions.TryGetValue(name, out InAppDefinition def) ? def : default;
         }
 
         public bool GetBundleStatus(string id)
         {
-            return string.IsNullOrEmpty(name) ? default :
-                _bundleDefinitions.ContainsKey(id) ? _bundleDefinitions[id].IsBundle : default;
+            return _bundleDefinitions.TryGetValue(id, out InAppDefinition def) ? def.IsBundle : default;
         }
 
 #if UNITY_EDITOR

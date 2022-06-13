@@ -1,38 +1,32 @@
 using System;
 using System.IO;
 using System.Security.Cryptography;
-using System.Text;
+using UnityEngine;
 
 namespace Script.Utils
 {
     public class AesUtil
     {
-        public byte[] Encrypt(string original, byte[] keyBytes) //key - 32 символа
+        private readonly byte[] _iv = { 101, 99, 157, 204, 134, 63, 201, 169, 163, 158, 12, 119, 138, 156, 187, 167 };
+
+        public byte[] Encrypt(string original, byte[] key) //key lenght are 32 symbols
         {
-            byte[] iv = Encoding.ASCII.GetBytes("My?favorite/game");
-            byte[] encrypted = null;
-            
-            encrypted = EncryptStringToBytes_Aes(original, keyBytes, iv);
-            return encrypted;
+            return EncryptBytesDataToBytesAes(original, key, _iv);
         }
 
-        public string Decrypt(byte[] encrypted, byte[] keyBytes)
+        public string Decrypt(byte[] encrypted, byte[] key)
         {
-            byte[] iv = Encoding.ASCII.GetBytes("My?favorite/game");
-            string outData = null;
-            
-            outData = DecryptStringFromBytes_Aes(encrypted, keyBytes, iv);
-            return outData;
+            return DecryptBytesDataFromBytesAes(encrypted, key, _iv);
         }
         
-        private byte[] EncryptStringToBytes_Aes(string plainText, byte[] Key, byte[] IV)
+        private byte[] EncryptBytesDataToBytesAes(string plainText, byte[] Key, byte[] IV)
         {
             if (plainText == null || plainText.Length <= 0)
-                throw new ArgumentNullException("plainText");
+                throw new ArgumentNullException(nameof(plainText));
             if (Key == null || Key.Length <= 0)
-                throw new ArgumentNullException("Key");
+                throw new ArgumentNullException(nameof(Key));
             if (IV == null || IV.Length <= 0)
-                throw new ArgumentNullException("IV");
+                throw new ArgumentNullException(nameof(IV));
             byte[] encrypted;
             
             using (Aes aesAlg = Aes.Create())
@@ -58,14 +52,14 @@ namespace Script.Utils
             return encrypted;
         }
 
-        private string DecryptStringFromBytes_Aes(byte[] cipherText, byte[] Key, byte[] IV)
+        private string DecryptBytesDataFromBytesAes(byte[] cipherText, byte[] Key, byte[] IV)
         {
             if (cipherText == null || cipherText.Length <= 0)
-                throw new ArgumentNullException("cipherText");
+                throw new ArgumentNullException(nameof(cipherText));
             if (Key == null || Key.Length <= 0)
-                throw new ArgumentNullException("Key");
+                throw new ArgumentNullException(nameof(Key));
             if (IV == null || IV.Length <= 0)
-                throw new ArgumentNullException("IV");
+                throw new ArgumentNullException(nameof(IV));
             
             string plaintext = null;
             

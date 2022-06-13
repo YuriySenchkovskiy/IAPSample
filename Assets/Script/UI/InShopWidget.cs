@@ -1,6 +1,7 @@
 using System.Globalization;
 using Script.IAP;
 using Script.Repositories;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,10 +9,10 @@ namespace Script.UI
 {
     public class InShopWidget : MonoBehaviour, IItemRenderer<InAppDefinition>
     {
-        [SerializeField] private Text _name;
+        [SerializeField] private TextMeshProUGUI _name;
+        [SerializeField] private TextMeshProUGUI _price;
         [SerializeField] private Image _image;
-        [SerializeField] private Text _price;
-        
+
         [SerializeField] private Image _purchased;
         [SerializeField] private Button _button;
         [SerializeField] private IAPManager _iapManager;

@@ -8,26 +8,25 @@ namespace Script.UI
     public class ShopWindow : IAPAnimateWindowController
     {
         [SerializeField] private Transform _inAppContainer;
-        [SerializeField] private InShopWidget _prefabInShopWidget;
+        [SerializeField] private InShopWidget _inShopWidgetPrefab;
         [SerializeField] private Button _restoreButton;
         [SerializeField] private IAPManager _iapManager;
 
         private DataGroup<InAppDefinition, InShopWidget> _dataGroup;
         private InShopWidget[] _widgets;
 
-        private void Awake()
+#if !UNITY_IOS && !UNITY_STANDALONE_OSX
+        protected override void Awake()
         {
-            if (Application.platform != RuntimePlatform.IPhonePlayer || 
-                Application.platform != RuntimePlatform.OSXPlayer)
-            {
-                _restoreButton.gameObject.SetActive(false);
-            }
+            base.Awake();
+            _restoreButton.gameObject.SetActive(false);
         }
+#endif
 
         protected override void Start()
         {
             base.Start();
-            _dataGroup = new DataGroup<InAppDefinition, InShopWidget>(_prefabInShopWidget, _inAppContainer);
+            _dataGroup = new DataGroup<InAppDefinition, InShopWidget>(_inShopWidgetPrefab, _inAppContainer);
             SetData();
         }
 

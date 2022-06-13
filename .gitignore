@@ -1,0 +1,11 @@
+.idea/.idea.iap-sample/
+Assets/Resources/InApp.asset
+Assets/Resources/InApp.asset.meta
+Assets/TextMesh Pro.meta
+Assets/TextMesh Pro/
+Library/
+Logs/
+Packages/.gitignore
+Temp/
+iap-sample.sln
+obj/
