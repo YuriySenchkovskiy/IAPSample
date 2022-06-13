@@ -24,9 +24,9 @@ namespace Script.IAP
             var iapBase = GetAllData();
             iapBase.AddDefinition(iapDefinition);
             var binary = BinaryUtil.SerializeObject(iapBase);
-            var rawData = aes.Encrypt(binary, _keyBytes);
+            var aesData = aes.Encrypt(binary, _keyBytes);
             
-            File.WriteAllBytes(_filePath, rawData);
+            File.WriteAllBytes(_filePath, aesData);
         }
 
         public static bool HasID(string name)
@@ -45,8 +45,8 @@ namespace Script.IAP
             if (File.Exists(_filePath))
             {
                 AesUtil aes = new AesUtil();
-                var allProducts = File.ReadAllBytes(_filePath);
-                var binary = aes.Decrypt(allProducts, _keyBytes);
+                var aesData = File.ReadAllBytes(_filePath);
+                var binary = aes.Decrypt(aesData, _keyBytes);
                 
                 return BinaryUtil.DeserializeObject(binary) as IAPBase;
             }

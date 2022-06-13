@@ -1,7 +1,7 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
-using UnityEngine;
 
 namespace Script.Utils
 {
@@ -9,30 +9,31 @@ namespace Script.Utils
     {
         private readonly byte[] _iv = { 101, 99, 157, 204, 134, 63, 201, 169, 163, 158, 12, 119, 138, 156, 187, 167 };
 
-        public byte[] Encrypt(string original, byte[] key) //key lenght are 32 symbols
+        public byte[] Encrypt(byte[] original, byte[] key) //key lenght are 32 symbols
         {
             return EncryptBytesDataToBytesAes(original, key, _iv);
         }
 
-        public string Decrypt(byte[] encrypted, byte[] key)
+        public byte[] Decrypt(byte[] encrypted, byte[] key)
         {
             return DecryptBytesDataFromBytesAes(encrypted, key, _iv);
         }
         
-        private byte[] EncryptBytesDataToBytesAes(string plainText, byte[] Key, byte[] IV)
+        private byte[] EncryptBytesDataToBytesAes(byte[] encryptData, byte[] key, byte[] iv)
         {
-            if (plainText == null || plainText.Length <= 0)
-                throw new ArgumentNullException(nameof(plainText));
-            if (Key == null || Key.Length <= 0)
-                throw new ArgumentNullException(nameof(Key));
-            if (IV == null || IV.Length <= 0)
-                throw new ArgumentNullException(nameof(IV));
+            if (encryptData == null || encryptData.Length <= 0)
+                throw new ArgumentNullException(nameof(encryptData));
+            if (key == null || key.Length <= 0)
+                throw new ArgumentNullException(nameof(key));
+            if (iv == null || iv.Length <= 0)
+                throw new ArgumentNullException(nameof(iv));
+            
             byte[] encrypted;
             
             using (Aes aesAlg = Aes.Create())
             {
-                aesAlg.Key = Key;
-                aesAlg.IV = IV;
+                aesAlg.Key = key;
+                aesAlg.IV = iv;
 
                 ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
                 
@@ -40,49 +41,48 @@ namespace Script.Utils
                 {
                     using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
                     {
-                        using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
-                        {
-                            swEncrypt.Write(plainText);
-                        }
+                        csEncrypt.Write(encryptData, 0, encryptData.Length);
+                        csEncrypt.FlushFinalBlock();
+
                         encrypted = msEncrypt.ToArray();
                     }
                 }
             }
-            
+
             return encrypted;
         }
 
-        private string DecryptBytesDataFromBytesAes(byte[] cipherText, byte[] Key, byte[] IV)
+        private byte[] DecryptBytesDataFromBytesAes(byte[] cipherBytes, byte[] key, byte[] iv)
         {
-            if (cipherText == null || cipherText.Length <= 0)
-                throw new ArgumentNullException(nameof(cipherText));
-            if (Key == null || Key.Length <= 0)
-                throw new ArgumentNullException(nameof(Key));
-            if (IV == null || IV.Length <= 0)
-                throw new ArgumentNullException(nameof(IV));
-            
-            string plaintext = null;
+            if (cipherBytes == null || cipherBytes.Length <= 0)
+                throw new ArgumentNullException(nameof(cipherBytes));
+            if (key == null || key.Length <= 0)
+                throw new ArgumentNullException(nameof(key));
+            if (iv == null || iv.Length <= 0)
+                throw new ArgumentNullException(nameof(iv));
+
+            byte[] bytes;
             
             using (Aes aesAlg = Aes.Create())
             {
-                aesAlg.Key = Key;
-                aesAlg.IV = IV;
-                
+                aesAlg.Key = key;
+                aesAlg.IV = iv;
+
                 ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
                 
-                using (MemoryStream msDecrypt = new MemoryStream(cipherText))
+                using (MemoryStream msDecrypt = new MemoryStream(cipherBytes))
                 {
                     using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
                     {
-                        using (StreamReader srDecrypt = new StreamReader(csDecrypt))
-                        {
-                            plaintext = srDecrypt.ReadToEnd();
-                        }
+                        var buffer = new byte[cipherBytes.Length];
+                        var bytesRead = csDecrypt.Read(buffer, 0, cipherBytes.Length);
+
+                        bytes = buffer.Take(bytesRead).ToArray();
                     }
                 }
             }
 
-            return plaintext;
+            return bytes;
         }
     }
 }

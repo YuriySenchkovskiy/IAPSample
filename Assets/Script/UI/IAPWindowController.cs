@@ -2,7 +2,6 @@ using System;
 using Script.IAP;
 using Script.Utils;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Script.UI
 { 
